@@ -5,3 +5,19 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+.JumboContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.justifiedText{
+    text-align: justify;
+}
+
+.Light{
+    background-color: rgb(235, 235, 235);
+    padding: 1rem;
+    border-radius: 5px;
+}

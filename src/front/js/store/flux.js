@@ -1,3 +1,5 @@
+import { Navigate } from "react-router-dom";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -16,7 +18,60 @@ const getState = ({ getStore, getActions, setStore }) => {
 			]
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
+			LogOut: () =>{
+				// delete user info and token
+				Navigate("/home")
+				sessionStorage.removeItem('token')
+				setStore({
+					user_info: null
+				})
+			},
+			fetchUser: async (access_token) =>{
+				const options = {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${access_token}`
+					}
+				}
+				const response = await fetch('https://3001-4geeksacade-reactflaskh-yr9yengmj8h.ws-eu77.gitpod.io/api/user_login', options
+				)
+				const data = await response.json()
+				setStore({
+					user_info: data
+					// message: data.message
+				})
+			},
+			fetchFamilyMembers: async (Family) =>{
+				const options = {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+					}
+				}
+				const response = await fetch(`https://3001-4geeksacade-reactflaskh-yr9yengmj8h.ws-eu77.gitpod.io/api/families/${Family}/members`, options
+				)
+				const data = await response.json()
+				setStore({
+					family_members: data 
+				})
+			},
+			getFamilies: async () =>{
+				const options = {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+					}
+				}
+				const response = await fetch('https://3001-4geeksacade-reactflaskh-yr9yengmj8h.ws-eu77.gitpod.io/api/families', options
+				)
+				const data = await response.json()
+				setStore({
+					families: data 
+				})
+			},
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
